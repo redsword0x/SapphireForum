@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sapphire Forum</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Orbitron:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
+</head>
+<body>
+    <div class="nebula-bg">
+        <div class="stars"></div>
+        <div class="glow-sphere glow-sphere-1"></div>
+        <div class="glow-sphere glow-sphere-2"></div>
+        <div class="glow-sphere glow-sphere-3"></div>
+    </div>
+
+    <div class="container">
+        <header class="glass-effect">
+            <div class="logo">
+                <a href="#" id="home-link">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="currentColor" class="logo-icon"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5-10-5-10 5z"/></svg>
+                    <h1>Sapphire Forum</h1>
+                </a>
+            </div>
+            <nav>
+            </nav>
+            <div class="auth-section">
+                <div class="auth-buttons">
+                    <button id="login-btn" class="btn btn-secondary">Login</button>
+                    <button id="signup-btn" class="btn btn-primary">Sign Up</button>
+                </div>
+                <div class="user-profile hidden">
+                    <img id="user-avatar" src="https://via.placeholder.com/40" alt="User Avatar">
+                    <div class="dropdown">
+                        <button class="dropdown-toggle">▼</button>
+                        <div class="dropdown-menu glass-effect">
+                            <a href="#" id="logout-link">Logout</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <div id="home-page" class="page active">
+                <div class="page-header">
+                    <h2>Threads</h2>
+                    <button id="new-thread-btn" class="btn btn-primary">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                        New Thread
+                    </button>
+                </div>
+                <div class="filters glass-effect">
+                    <select id="category-filter">
+                        <option value="all">All Categories</option>
+                        <option value="general">General</option>
+                        <option value="tech">Tech</option>
+                        <option value="discussion">Discussion</option>
+                        <option value="help">Help</option>
+                    </select>
+                    <select id="time-filter">
+                        <option value="recent">Most Recent</option>
+                        <option value="popular">Most Popular</option>
+                        <option value="commented">Most Commented</option>
+                    </select>
+                </div>
+                
+                <!-- Announcement Section -->
+                <div class="announcement-card glass-effect">
+                    <div class="announcement-header">
+                        <div class="announcement-avatar">
+                            <img src="/toji-fushiguro-toji.gif" alt="Admin Avatar">
+                        </div>
+                        <div class="announcement-title">
+                            <h3>Rakib🔹</h3>
+                            <div class="announcement-badge">
+                                <span>Admin Notice</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="announcement-content">
+                        <p>Hello Everyone,</p>
+                        <p>Welcome to the Sapphire Forum! This is a space dedicated to the Sapphire Community. Feel free to start threads, ask questions, engage with others' posts, and upvote the content you find helpful. Our Sapphire Admins and Mods are always here to assist you!
+
+                            Please note that any issues related to Sapphire products should be addressed on our Discord channel, where dedicated support is available. Let's keep the forum a place for community discussions and knowledge sharing!</p>
+                    </div>
+                    <div class="announcement-footer">
+                        <div class="announcement-meta">
+                            <span class="announcement-author">by Rakib (Admin • Owner)</span>
+                            <span class="announcement-time">04.02.2025</span>
+                        </div>
+                        <div class="announcement-stats">
+                            <div class="likes">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3H14z"></path><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path></svg>
+                                <span>15</span>
+                            </div>
+                            <div class="dislikes">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3H10z"></path><path d="M17 2h3a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-3"></path></svg>
+                                <span>1</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <h2 class="section-title">Active Threads</h2>
+                
+                <div id="threads-list">
+                    <!-- Threads will be loaded dynamically -->
+                </div>
+            </div>
+
+            <div id="thread-detail-page" class="page">
+                <button id="back-to-threads" class="btn btn-secondary btn-back">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                    Back to Threads
+                </button>
+                <h2 id="thread-title" data-thread-id="">Loading Thread...</h2>
+                <article id="main-post" class="glass-effect">
+                    <!-- Main post content will be loaded dynamically -->
+                </article>
+                <section class="replies-section">
+                    <h3><span id="reply-count">0</span> Replies</h3>
+                    <div id="replies-list">
+                        <!-- Replies will be loaded dynamically -->
+                    </div>
+                </section>
+                <section id="reply-form-container" class="hidden glass-effect">
+                    <h4>Leave a Reply</h4>
+                    <form id="reply-form">
+                        <textarea id="reply-content" placeholder="Write your reply..." required></textarea>
+                        <button type="submit" class="btn btn-primary">Post Reply</button>
+                    </form>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <div id="new-thread-modal" class="modal">
+        <div class="modal-content glass-effect">
+            <div class="modal-padding">
+                <span class="close">&times;</span>
+                <h2>Create New Thread</h2>
+                <form id="new-thread-form">
+                    <div class="form-group">
+                        <label for="thread-title-input">Title</label>
+                        <input type="text" id="thread-title-input" required placeholder="Enter thread title">
+                    </div>
+                    <div class="form-group">
+                        <label for="thread-category">Category</label>
+                        <select id="thread-category" required>
+                            <option value="" disabled selected>Select a category</option>
+                            <option value="general">General</option>
+                            <option value="tech">Tech</option>
+                            <option value="discussion">Discussion</option>
+                            <option value="help">Help</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="thread-content">Content</label>
+                        <textarea id="thread-content" rows="6" required placeholder="Start writing your thread content..."></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Create Thread</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="auth-modal" class="modal">
+        <div class="modal-content glass-effect auth-modal-content">
+            <span class="close">&times;</span>
+            <div class="tab-header">
+                <div id="login-tab" class="active">Login</div>
+                <div id="signup-tab">Sign Up</div>
+            </div>
+            <div class="tab-content">
+                <div id="login-form" class="active">
+                    <form id="login-form-element">
+                        <h3>Welcome Back!</h3>
+                        <div class="form-group">
+                            <label for="login-email">Email</label>
+                            <input type="email" id="login-email" required placeholder="your.email@example.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="login-password">Password</label>
+                            <input type="password" id="login-password" required placeholder="••••••••">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Login</button>
+                        <p class="switch-form">Don't have an account? <a href="#" id="switch-to-signup">Sign Up</a></p>
+                    </form>
+                </div>
+                <div id="signup-form">
+                    <form id="signup-form-element">
+                        <h3>Create Account</h3>
+                        <div class="form-group">
+                            <label for="signup-username">Username</label>
+                            <input type="text" id="signup-username" required placeholder="Choose a username">
+                        </div>
+                        <div class="form-group">
+                            <label for="signup-email">Email</label>
+                            <input type="email" id="signup-email" required placeholder="your.email@example.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="signup-password">Password</label>
+                            <input type="password" id="signup-password" required placeholder="Create a strong password">
+                        </div>
+                        <div class="form-group">
+                            <label for="signup-confirm-password">Confirm Password</label>
+                            <input type="password" id="signup-confirm-password" required placeholder="Repeat your password">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Sign Up</button>
+                        <p class="switch-form">Already have an account? <a href="#" id="switch-to-login">Login</a></p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="auth.js"></script>
+    <script src="firestore.js"></script>
+    <script src="app.js"></script>
+    <script src="animations.js"></script>
+
+    <script>
+        // Simple dropdown toggle for user profile
+        document.addEventListener('DOMContentLoaded', () => {
+            const userProfile = document.querySelector('.user-profile');
+            if (userProfile) {
+                const toggle = userProfile.querySelector('.dropdown-toggle');
+                const menu = userProfile.querySelector('.dropdown-menu');
+                if(toggle && menu){
+                    toggle.addEventListener('click', (e) => {
+                        e.stopPropagation(); // Prevent closing immediately
+                        menu.classList.toggle('show');
+                    });
+                    // Close dropdown if clicking outside
+                    document.addEventListener('click', (e) => {
+                        if (!userProfile.contains(e.target)) {
+                            menu.classList.remove('show');
+                        }
+                    });
+                }
+            }
+        });
+    </script>
+</body>
+</html>
